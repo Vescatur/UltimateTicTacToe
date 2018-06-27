@@ -1,0 +1,21 @@
+﻿@page
+@model UltimateTicTacToeWeb.Pages.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<table>
+    @foreach (var fieldRow in Model.superField.fields)
+    {
+        <tr>
+            @foreach (var field in fieldRow)
+            {
+                <td>
+                    derp
+                </td>
+            }
+        </tr>
+    }
+</table>
+

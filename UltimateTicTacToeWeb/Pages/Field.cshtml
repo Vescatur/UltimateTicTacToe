@@ -1,0 +1,125 @@
+﻿@using UltimateTicTacToeWeb.Model
+@using Microsoft.AspNetCore.Html
+@model FieldViewModel
+
+@functions{
+    public string GetSquareCssClasses(int squareY, int squareX)
+    {
+        SquareState square = Model.Field.Squares[squareY][squareX];
+        if (square == SquareState.O)
+        {
+            return "player1";
+
+        }
+        else if (square == SquareState.X)
+        {
+            return "player2";
+        }
+        else
+        {
+            if (Model.Interactable)
+            {
+                return "yellow interactive";
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
+
+    public IHtmlContent GetSquareHighlight(int squareY, int squareX)
+    {
+
+        if (Model.HighlightMove && Model.HighlightMoveSquareY == squareY && Model.HighlightMoveSquareX == squareX)
+        {
+            return Html.Raw("<div class='animator'></div>");
+        }
+        return Html.Raw("");
+    }
+}
+
+<div class="small_field field">
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="0" />
+        <input type="hidden" name="squareX" value="0" />
+        <div class="small_cell cell top left @GetSquareCssClasses(0,0)" onclick="this.parentElement.submit();">@GetSquareHighlight(0, 0)</div>
+    </form>
+
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="0" />
+        <input type="hidden" name="squareX" value="1" />
+        <div class="small_cell cell top center @GetSquareCssClasses(0,1)" onclick="this.parentElement.submit();">@GetSquareHighlight(0, 1)</div>
+    </form>
+
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="0" />
+        <input type="hidden" name="squareX" value="2" />
+        <div class="small_cell cell top right @GetSquareCssClasses(0,2)" onclick="this.parentElement.submit();">@GetSquareHighlight(0, 2)</div>
+    </form>
+    <br>
+
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="1" />
+        <input type="hidden" name="squareX" value="0" />
+        <div class="small_cell cell middle left @GetSquareCssClasses(1,0)" onclick="this.parentElement.submit();">@GetSquareHighlight(1, 0)</div>
+    </form>
+
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="1" />
+        <input type="hidden" name="squareX" value="1" />
+        <div class="small_cell cell middle center @GetSquareCssClasses(1,1)" onclick="this.parentElement.submit();">@GetSquareHighlight(1, 1)</div>
+    </form>
+
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="1" />
+        <input type="hidden" name="squareX" value="2" />
+        <div class="small_cell cell middle right @GetSquareCssClasses(1,2)" onclick="this.parentElement.submit();">@GetSquareHighlight(1, 2)</div>
+    </form>
+    <br>
+
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="2" />
+        <input type="hidden" name="squareX" value="0" />
+        <div class="small_cell cell bottom left @GetSquareCssClasses(2,0)" onclick="this.parentElement.submit();">@GetSquareHighlight(2, 0)</div>
+    </form>
+
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="2" />
+        <input type="hidden" name="squareX" value="1" />
+        <div class="small_cell cell bottom center @GetSquareCssClasses(2,1)" onclick="this.parentElement.submit();">@GetSquareHighlight(2, 1)</div>
+    </form>
+
+    <form asp-page="Index" asp-page-handler="Move">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="fieldY" value="@Model.FieldY" />
+        <input type="hidden" name="fieldX" value="@Model.FieldX" />
+        <input type="hidden" name="squareY" value="2" />
+        <input type="hidden" name="squareX" value="2" />
+        <div class="small_cell cell bottom right @GetSquareCssClasses(2,2)" onclick="this.parentElement.submit();">@GetSquareHighlight(2, 2)</div>
+    </form>
+</div>

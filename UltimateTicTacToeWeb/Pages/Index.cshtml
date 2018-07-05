@@ -1,21 +1,133 @@
 ﻿@page
 @model UltimateTicTacToeWeb.Pages.IndexModel
+@using UltimateTicTacToeWeb.Model
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-<table>
-    @foreach (var fieldRow in Model.superField.fields)
+@functions{
+    public string GetFieldCssClasses(Field field)
+    {
+        if (field.winner == FieldState.O)
+        {
+            return "player1";
+
+        }
+        else if (field.winner == FieldState.X)
+        {
+            return "player2";
+        }
+        return "";
+    }
+
+}
+
+<div class="header">
+    <a href="/ttt">leave</a>
+    <span id="version">
+        <a title="Change colors!" href="javascript:togglecolors();">paint!</a><br>
+    </span>
+    <h1 id="uttt_title" style="display: none;">Ultimate Tic Tac Toe</h1>
+    <h1 id="win_title">
+        <span></span>
+    </h1><h1 id="names_title" style="display: block;">
+        @if (Model.superField.PlayersTurn == SquareState.O)
+        {
+            <span id="p1name">player O</span>
+        }
+        else
+        {
+            <span>player O</span>
+        }
+        &nbsp;vs&nbsp;
+        @if (Model.superField.PlayersTurn == SquareState.X)
+        {
+            <span id="p2name">player X</span>
+        }
+        else
+        {
+            <span>player X</span>
+        }
+    </h1>
+</div>
+
+@if (Model.errorMessage != null)
+{
+    @Model.errorMessage;
+}
+else
+{
+
+    <div class="big_field field" id="big_field" style="width: 550px; height: 550px;">
+        <div class="big_cell top left @GetFieldCssClasses(Model.superField.Fields[0][0])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 0, 0))
+        </div>
+        <div class="big_cell top center @GetFieldCssClasses(Model.superField.Fields[0][1])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 0, 1))
+        </div>
+        <div class="big_cell top right @GetFieldCssClasses(Model.superField.Fields[0][2])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 0, 2))
+        </div>
+        <br>
+        <div class="big_cell middle left @GetFieldCssClasses(Model.superField.Fields[1][0])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 1, 0))
+        </div>
+        <div class="big_cell middle center @GetFieldCssClasses(Model.superField.Fields[1][1])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 1, 1))
+        </div>
+        <div class="big_cell middle right @GetFieldCssClasses(Model.superField.Fields[1][2])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 1, 2))
+        </div>
+        <br>
+        <div class="big_cell bottom left @GetFieldCssClasses(Model.superField.Fields[2][0])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 2, 0))
+        </div>
+        <div class="big_cell bottom center @GetFieldCssClasses(Model.superField.Fields[2][1])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 2, 1))
+        </div>
+        <div class="big_cell bottom right @GetFieldCssClasses(Model.superField.Fields[2][2])">
+            @await Html.PartialAsync("Field.cshtml", new FieldViewModel(Model.superField, 2, 2))
+        </div>
+    </div>
+
+    <p>
+        @if (Model.superField.Winner == FieldState.Draw)
+        {
+            @:Draw
+        }
+        else if (Model.superField.Winner == FieldState.X)
+        {
+            @:Player X Won
+        }
+        else if (Model.superField.Winner == FieldState.O)
+        {
+            @:Player O Won
+        }
+    </p>
+
+    <div id="header_infos">
+        Move-Nr:
+        <span id="move_nr">8</span>&nbsp;&nbsp;&nbsp;
+        <span id="whoseturn">It is your turn.</span>
+    </div>
+
+}
+
+<div id="info_box">Seems your opponent has lost his connection. Keep the URL to resume the game later.</div>
+<table class="table table-bordered">
+    @foreach (var intRow in Model.score.FieldScores)
     {
         <tr>
-            @foreach (var field in fieldRow)
+            @foreach (var number in intRow)
             {
                 <td>
-                    derp
+                    @number
                 </td>
             }
         </tr>
     }
-</table>
 
+</table>
+<p>SuperFieldScore: @Model.score.SuperFieldScore</p>
+<p>Totaal: @Model.score.Totaal()</p>

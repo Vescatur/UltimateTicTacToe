@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UltimateTicTacToeWeb.Helpers.Services;
 
 namespace UltimateTicTacToeWeb
 {
@@ -31,6 +32,16 @@ namespace UltimateTicTacToeWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+            });
+            services.AddTransient<SuperFieldService, SuperFieldService>();
+            services.AddTransient<SuperFieldEvalutionService, SuperFieldEvalutionService>();
+            services.AddTransient<BotBuilderService, BotBuilderService>();
+            services.AddTransient<BotService, BotService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -51,7 +62,7 @@ namespace UltimateTicTacToeWeb
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseMvc();
         }
     }

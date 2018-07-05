@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToeWeb.Model
 {
-    public enum SquareState
+    public enum FieldState
     {
-        None, X, O
+        None, Draw, X, O
     }
 }

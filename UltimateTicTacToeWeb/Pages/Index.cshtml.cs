@@ -5,27 +5,52 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UltimateTicTacToeWeb.Model;
+using UltimateTicTacToeWeb.Helpers.Extensions;
+using UltimateTicTacToeWeb.Helpers.Services;
+using UltimateTicTacToeWeb.Model.Bot;
 
 namespace UltimateTicTacToeWeb.Pages
 {
     public class IndexModel : PageModel
     {
+        private readonly static string SuperFieldKey = "superField";
         public SuperField superField { get; set; }
+        public Score score { get; set; }
+        public string errorMessage { get; set; }
+
+        private readonly SuperFieldService superFieldService;
+        private readonly SuperFieldEvalutionService superFieldEvalutionService;
+        private Bot bot;
+
+        public IndexModel(SuperFieldService superFieldService, SuperFieldEvalutionService superFieldEvalutionService, BotBuilderService botBuilderService)
+        {
+            this.superField = superField;
+            this.superFieldService = superFieldService;
+            this.superFieldEvalutionService = superFieldEvalutionService;
+            this.bot = botBuilderService.CreateBasicBot(false);
+        }
 
         public void OnGet()
         {
             superField = new SuperField();
-            superField.fields[0][0].squares[0][0] = SquareState.O;
-            superField.fields[0][0].squares[1][1] = SquareState.X;
-            superField.fields[0][0].squares[1][2] = SquareState.O;
+            score = superFieldEvalutionService.EvaluateSuperField(superField, bot);
+      
+            HttpContext.Session.Set<SuperField>(SuperFieldKey, superField);
+        }
 
-            superField.fields[1][0].squares[0][0] = SquareState.O;
-            superField.fields[1][0].squares[1][1] = SquareState.X;
-            superField.fields[1][0].squares[1][2] = SquareState.O;
-
-            superField.fields[1][2].squares[0][0] = SquareState.O;
-            superField.fields[1][2].squares[1][1] = SquareState.X;
-            superField.fields[1][2].squares[1][2] = SquareState.O;
+        public void OnPostMove(int fieldY, int fieldX, int squareY,int squareX)
+        {
+            superField = HttpContext.Session.Get<SuperField>(SuperFieldKey);
+            if (superField != null)
+            {
+                superFieldService.DoMove(superField, fieldY, fieldX, squareY, squareX);
+                score = superFieldEvalutionService.EvaluateSuperField(superField, bot);
+                HttpContext.Session.Set<SuperField>(SuperFieldKey, superField);
+            }
+            else
+            {
+                errorMessage = "Can't find superField";
+            }
         }
     }
 }

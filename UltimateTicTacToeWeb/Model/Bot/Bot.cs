@@ -14,6 +14,12 @@ namespace UltimateTicTacToeWeb.Model.Bot
         public int[,,] fieldRowsMiddle;
         public int[,,] fieldRowsDiagonal;
 
+        public int fieldCornerMultiplier;
+        public int fieldMiddleMultiplier;
+        public int fieldCenterMultiplier;
+
+        public int superFieldMultiplier;
+
         /// <summary>
         /// The FieldScoreState is used as index
         /// </summary>
@@ -37,6 +43,11 @@ namespace UltimateTicTacToeWeb.Model.Bot
 
         public Bot(Bot bot,bool reverse)
         {
+            fieldCenterMultiplier = bot.fieldCenterMultiplier;
+            fieldCornerMultiplier = bot.fieldCornerMultiplier;
+            fieldMiddleMultiplier = bot.fieldMiddleMultiplier;
+            superFieldMultiplier = bot.superFieldMultiplier;
+
             if (reverse)
             {
                 winnerReversed = !bot.winnerReversed;

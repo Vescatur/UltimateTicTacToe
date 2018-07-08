@@ -3,15 +3,26 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:58170",
+      "applicationUrl": "https://localhost:44329",
       "sslPort": 44329
+    },
+    "IIS": {
+      "applicationUrl": "http://localhost/",
+      "sslPort": 0
     }
   },
   "profiles": {
+    "IIS": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:58170/AI",
+      "launchUrl": "https://localhost:44329/AI",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

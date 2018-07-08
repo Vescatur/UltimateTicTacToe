@@ -23,10 +23,21 @@ namespace UltimateTicTacToeWeb.Helpers.Services
                 for (int x = 0; x < 3; x++)
                 {
                     fieldScore[y][x] = EvaluateField(superField.Fields[y][x], bot);
+                    if(y==1 && x== 1)
+                    {
+                        fieldScore[y][x] = fieldScore[y][x] * bot.fieldCenterMultiplier;
+                    }else if((x+y)%2 == 0)
+                    {
+                        fieldScore[y][x] = fieldScore[y][x] * bot.fieldCornerMultiplier;
+                    }
+                    else
+                    {
+                        fieldScore[y][x] = fieldScore[y][x] * bot.fieldMiddleMultiplier;
+                    }
                 }
             }
 
-            superFieldScore = EvaluateSuperFieldScore(superField, fieldScore, bot)*10;
+            superFieldScore = EvaluateSuperFieldScore(superField, fieldScore, bot)*bot.superFieldMultiplier;
 
             return new Score(fieldScore, superFieldScore);
         }

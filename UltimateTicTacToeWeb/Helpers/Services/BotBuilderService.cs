@@ -21,6 +21,11 @@ namespace UltimateTicTacToeWeb.Helpers.Services
             BasicSettingsForSuperFieldScores(bot.superFieldRowsEdge);
             BasicSettingsForSuperFieldScores(bot.superFieldRowsMiddle);
 
+            bot.fieldCenterMultiplier = 3;
+            bot.fieldCornerMultiplier = 1;
+            bot.fieldMiddleMultiplier = 1;
+            bot.superFieldMultiplier = 11;
+
             if (winnerReversed)
             {
                 bot = new Bot(bot, true);
